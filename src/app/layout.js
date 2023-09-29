@@ -1,3 +1,11 @@
+import "../../public/assets/vendor/bootstrap/css/bootstrap.min.css"
+import "../../public/assets/vendor/bootstrap-icons/bootstrap-icons.css"
+import "../../public/assets/vendor/boxicons/css/boxicons.min.css"
+import "../../public/assets/vendor/quill/quill.snow.css"
+import "../../public/assets/vendor/quill/quill.bubble.css"  
+import "../../public/assets/vendor/remixicon/remixicon.css"
+import "../../public/assets/vendor/simple-datatables/style.css"
+import "../../public/assets/css/style.css"
 import './globals.css'
 import { Inter } from 'next/font/google'
 
@@ -14,4 +22,3 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>{children}</body>
     </html>
   )
-}
