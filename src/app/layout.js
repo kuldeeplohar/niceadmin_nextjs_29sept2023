@@ -8,10 +8,25 @@ import "../../public/assets/vendor/simple-datatables/style.css"
 import "../../public/assets/css/style.css"
 import './globals.css'
 import Script from 'next/script'
-import { Inter } from 'next/font/google'
+//👇 Import Open Sans font
+import { Open_Sans,Poppins,Nunito } from 'next/font/google'
 
+ const openSans = Open_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: [ '300', '400', '500', '600', '700']
+})
+ const poppins = Poppins({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: [ '300', '400', '500', '600', '700' ]
 
-const inter = Inter({ subsets: ['latin'] })
+});
+ const nunito = Nunito({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: [ '300', '400', '500', '600', '700']
+});
 
 export const metadata = {
   title: 'Create Next App',
@@ -21,20 +36,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
+       <body  className={`${openSans.className}  ${poppins.className}   ${nunito.className}`}>
+         {children}
         
-          <Script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></Script>
-          <Script src="assets/vendor/apexcharts/apexcharts.min.js"></Script>
-          <Script src="assets/vendor/chart.js/chart.umd.js"></Script>
-          <Script src="assets/vendor/echarts/echarts.min.js"></Script>
-          <Script src="assets/vendor/quill/quill.min.js"></Script>
-          <Script src="assets/vendor/simple-datatables/simple-datatables.js"></Script>
-          <Script src="assets/vendor/tinymce/tinymce.min.js"></Script>
-          <Script src="assets/vendor/php-email-form/validate.js"></Script>
-
-        
-          <Script src="assets/js/main.js"></Script>
       </body>
     </html>
   )}
