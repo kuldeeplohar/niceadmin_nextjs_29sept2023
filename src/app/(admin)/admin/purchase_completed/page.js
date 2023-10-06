@@ -1,85 +1,182 @@
-import React from 'react'
+  'use client'
+      import React, { useState, useEffect, useRef } from 'react';
+      import { DataTable } from 'primereact/datatable';
+      import { Column } from 'primereact/column';
+      import { Button } from 'primereact/button';
+      import { Tooltip } from 'primereact/tooltip';
+    //  import { ProductService } from './service/ProductService';
 
-export default function page() {
-  return (
-    <div>
-     
-    <section className="section dashboard">
-      <div classname="row">
+    let information = [
+      {
+        id: '1',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '2',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '3',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '4',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '5',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '6',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '7',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '8',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '9',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '10',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '11',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '12',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '13',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '14',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+      {
+        id: '1000',
+        category: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+      },
+    ]
 
-      <div classname="col-lg-12">
-        <div className="row">
-          <div className="col-lg-12">
+    export default function ExportDemo() {
+        const [products, setProducts] = useState([information]);
+        const dt = useRef(null);
+
+        const cols = [
+            { field: 'id', header: 'ID' },
+            { field: 'name', header: 'Name' },
+            { field: 'category', header: 'Category' },
+            { field: 'description', header: 'Description' },
+        ];
+
+        const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
+
+        useEffect(() => {
+           // ProductService.getProductsMini().then((data) => setProducts(data));
+        }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+        const exportCSV = (selectionOnly) => {
+            dt.current.exportCSV({ selectionOnly });
+        };
+
+        const exportPdf = () => {
+            import('jspdf').then((jsPDF) => {
+                import('jspdf-autotable').then(() => {
+                    const doc = new jsPDF.default(0, 0);
+
+                    doc.autoTable(exportColumns, products);
+                    doc.save('products.pdf');
+                });
+            });
+        };
+
+        const exportExcel = () => {
+            import('xlsx').then((xlsx) => {
+                const worksheet = xlsx.utils.json_to_sheet(products);
+                const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+                const excelBuffer = xlsx.write(workbook, {
+                    bookType: 'xlsx',
+                    type: 'array'
+                });
+
+                saveAsExcelFile(excelBuffer, 'products');
+            });
+        };
+
+        const saveAsExcelFile = (buffer, fileName) => {
+            import('file-saver').then((module) => {
+                if (module && module.default) {
+                    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+                    let EXCEL_EXTENSION = '.xlsx';
+                    const data = new Blob([buffer], {
+                        type: EXCEL_TYPE
+                    });
+
+                    module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+                }
+            });
+        };
+
+        const header = (
+            <div   className="flex align-items-center justify-content-end gap-2 float-end position-relative" style={{bottom: 3 + 'em'}} >
+                <Button className='btn btn-danger' type="button" icon="pi pi-file" rounded onClick={() => exportCSV(false)} data-pr-tooltip="CSV"   >csv</Button>
+                <Button className='btn btn-primary' type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS"   >XLXS</Button>
+                <Button className='btn btn-warning' type="button" icon="pi pi-file-pdf" severity="warning" rounded onClick={exportPdf} data-pr-tooltip="PDF"   >PDF</Button>
+            </div>
+        );
+
+        return (
+
             <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Horizontal Form</h5>
-                {/* Horizontal Form */}
-                <form>
-                  <div className="row mb-3">
-                    <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">Your Name</label>
-                    <div className="col-sm-10">
-                      <input type="text" className="form-control" id="inputText" />
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">Email</label>
-                    <div className="col-sm-10">
-                      <input type="email" className="form-control" id="inputEmail" />
-                    </div>
-                  </div>
-                  <div className="row mb-3">
-                    <label htmlFor="inputPassword3" className="col-sm-2 col-form-label">Password</label>
-                    <div className="col-sm-10">
-                      <input type="password" className="form-control" id="inputPassword" />
-                    </div>
-                  </div>
-                  <fieldset className="row mb-3">
-                    <legend className="col-form-label col-sm-2 pt-0">Radios</legend>
-                    <div className="col-sm-10">
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios1" defaultValue="option1" defaultChecked />
-                        <label className="form-check-label" htmlFor="gridRadios1">
-                          First radio
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios2" defaultValue="option2" />
-                        <label className="form-check-label" htmlFor="gridRadios2">
-                          Second radio
-                        </label>
-                      </div>
-                      <div className="form-check disabled">
-                        <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios3" defaultValue="option3" disabled />
-                        <label className="form-check-label" htmlFor="gridRadios3">
-                          Third disabled radio
-                        </label>
-                      </div>
-                    </div>
-                  </fieldset>
-                  <div className="row mb-3">
-                    <div className="col-sm-10 offset-sm-2">
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" id="gridCheck1" />
-                        <label className="form-check-label" htmlFor="gridCheck1">
-                          Example checkbox
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <button type="submit" className="btn btn-primary">Submit</button>
-                    <button type="reset" className="btn btn-secondary">Reset</button>
-                  </div>
-                </form>{/* End Horizontal Form */}
-              </div>
-            </div>    
-          </div>
-        </div>
-      </div>
-</div>
+                <Tooltip target=".export-buttons>button" position="bottom" />
 
-    </section>
-  
-   </div>
-  )
-}
+                <DataTable ref={dt} value={information} header={header} paginator rows={5} rowsPerPageOptions={[10, 20,30]} tableStyle={{ minWidth: '50rem' }}>
+                    {cols.map((col, index) => (
+                        <Column key={index} field={col.field} header={col.header} />
+                    ))}
+                </DataTable>
+            </div>
+        );
+    }
+        
